@@ -14,7 +14,7 @@ type AuthData = {
     userId: string | undefined;
     email: string | undefined;
     rememberMeData: { user: string; rememberMe: boolean };
-    lastRoute: string | undefined;
+    lastRoute: string;
 };
 
 async function readAuthData(): Promise<AuthData> {

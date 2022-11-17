@@ -42,6 +42,8 @@ import {
     useLanguageLocale,
     useInjectedUIContext,
 } from '@pxblue/react-auth-shared';
+import { LocalStorage } from '../store/local-storage';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * @ignore
@@ -129,6 +131,7 @@ export const ChangePassword: React.FC<ChangePasswordProps> = (props) => {
     const [transitState, setTransitState] = React.useState(initialTransitState);
     const [hasAcknowledgedError, setHasAcknowledgedError] = React.useState(false);
     const { t } = useLanguageLocale();
+    const navigation = useNavigation();
 
     // styles
     const containerStyles = makeContainerStyles(theme);
@@ -209,6 +212,11 @@ export const ChangePassword: React.FC<ChangePasswordProps> = (props) => {
                 barStyle={theme.dark ? 'light-content' : 'dark-content'}
             />
         );
+
+    const onCancelHandle = async (): Promise<void> => {
+        const auth = await LocalStorage.readAuthData();
+        navigation.navigate(auth.lastRoute);
+    };
 
     return transitState.transitSuccess ? ( // if the password was changed
         <View style={{ flex: 1, height: '100%', backgroundColor: theme.colors.surface }}>
@@ -315,7 +323,11 @@ export const ChangePassword: React.FC<ChangePasswordProps> = (props) => {
                 </ScrollView>
                 <View style={[styles.sideBySideButtons, containerStyles.containerMargins]}>
                     <View style={{ flex: 1, paddingRight: 8 }}>
-                        <ToggleButton text={t('pxb:CHANGE_PASSWORD.CANCEL')} outlined={true} onPress={props.onCancel} />
+                        <ToggleButton
+                            text={t('pxb:CHANGE_PASSWORD.CANCEL')}
+                            outlined={true}
+                            onPress={() => onCancelHandle()}
+                        />
                     </View>
                     <View style={{ flex: 1, paddingLeft: 8 }}>
                         <ToggleButton

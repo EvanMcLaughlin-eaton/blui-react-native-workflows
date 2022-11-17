@@ -3,11 +3,12 @@
  * @module Screens
  */
 
-import * as React from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Splash as SplashScreen } from './Splash';
 import { PreAuthContainer } from './PreAuthContainer';
 import { ChangePassword } from '../screens/ChangePassword';
+//import { LocalStorage } from '../store/local-storage';
 
 // Shared Auth Logic
 import {
